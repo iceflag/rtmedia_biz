@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyd.sop.biz.apiservice.mapper.MmImagesMapper">
+
+    <resultMap id="BaseResultMap" type="com.zyd.sop.biz.apiservice.model.MmImagesEntity" >
+        <result column="id" property="id" />
+        <result column="file_theme" property="fileTheme" />
+        <result column="file_title" property="fileTitle" />
+        <result column="file_size" property="fileSize" />
+        <result column="file_path" property="filePath" />
+        <result column="thumb_path" property="thumbPath" />
+        <result column="file_name" property="fileName" />
+        <result column="file_type" property="fileType" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="file_descr" property="fileDescr" />
+        <result column="file_lgtd" property="fileLgtd" />
+        <result column="file_lttd" property="fileLttd" />
+        <result column="time_stamp" property="timeStamp" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, file_theme,
+                file_title,
+                file_size,
+                file_path,
+                thumb_path,
+                file_name,
+                file_type,
+                create_time,
+                update_time,
+                file_descr,
+                file_lgtd,
+                file_lttd,
+                time_stamp
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" parameterType="com.zyd.sop.biz.apiservice.model.MmImagesEntity"">
+        INSERT INTO mm_images
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != fileTheme'>
+                file_theme,
+            </if>
+            <if test ='null != fileTitle'>
+                file_title,
+            </if>
+            <if test ='null != fileSize'>
+                file_size,
+            </if>
+            <if test ='null != filePath'>
+                file_path,
+            </if>
+            <if test ='null != thumbPath'>
+                thumb_path,
+            </if>
+            <if test ='null != fileName'>
+                file_name,
+            </if>
+            <if test ='null != fileType'>
+                file_type,
+            </if>
+            <if test ='null != createTime'>
+                create_time,
+            </if>
+            <if test ='null != updateTime'>
+                update_time,
+            </if>
+            <if test ='null != fileDescr'>
+                file_descr,
+            </if>
+            <if test ='null != fileLgtd'>
+                file_lgtd,
+            </if>
+            <if test ='null != fileLttd'>
+                file_lttd,
+            </if>
+            <if test ='null != timeStamp'>
+                time_stamp
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != fileTheme'>
+                #{fileTheme},
+            </if>
+            <if test ='null != fileTitle'>
+                #{fileTitle},
+            </if>
+            <if test ='null != fileSize'>
+                #{fileSize},
+            </if>
+            <if test ='null != filePath'>
+                #{filePath},
+            </if>
+            <if test ='null != thumbPath'>
+                #{thumbPath},
+            </if>
+            <if test ='null != fileName'>
+                #{fileName},
+            </if>
+            <if test ='null != fileType'>
+                #{fileType},
+            </if>
+            <if test ='null != createTime'>
+                #{createTime},
+            </if>
+            <if test ='null != updateTime'>
+                #{updateTime},
+            </if>
+            <if test ='null != fileDescr'>
+                #{fileDescr},
+            </if>
+            <if test ='null != fileLgtd'>
+                #{fileLgtd},
+            </if>
+            <if test ='null != fileLttd'>
+                #{fileLttd},
+            </if>
+            <if test ='null != timeStamp'>
+                #{timeStamp}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM mm_images
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.zyd.sop.biz.apiservice.model.MmImagesEntity">
+        UPDATE mm_images
+        <set>
+            <if test ='null != fileTheme'>file_theme = #{fileTheme},</if>
+            <if test ='null != fileTitle'>file_title = #{fileTitle},</if>
+            <if test ='null != fileSize'>file_size = #{fileSize},</if>
+            <if test ='null != filePath'>file_path = #{filePath},</if>
+            <if test ='null != thumbPath'>thumb_path = #{thumbPath},</if>
+            <if test ='null != fileName'>file_name = #{fileName},</if>
+            <if test ='null != fileType'>file_type = #{fileType},</if>
+            <if test ='null != createTime'>create_time = #{createTime},</if>
+            <if test ='null != updateTime'>update_time = #{updateTime},</if>
+            <if test ='null != fileDescr'>file_descr = #{fileDescr},</if>
+            <if test ='null != fileLgtd'>file_lgtd = #{fileLgtd},</if>
+            <if test ='null != fileLttd'>file_lttd = #{fileLttd},</if>
+            <if test ='null != timeStamp'>time_stamp = #{timeStamp}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM mm_images
+        WHERE id = #{id}
+    </select>
+
+
+
+</mapper>
