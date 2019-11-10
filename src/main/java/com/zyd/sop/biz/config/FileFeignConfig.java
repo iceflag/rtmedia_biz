@@ -14,16 +14,22 @@ import org.springframework.context.annotation.Scope;
 
 @Configuration
 public class FileFeignConfig {
-    @Autowired
-    private ObjectFactory<HttpMessageConverters> messageConverters;
+//    @Autowired
+//    private ObjectFactory<HttpMessageConverters> messageConverters;
+
+//    @Bean
+//    @Primary
+//    @Scope("prototype")
+//    public Encoder feignEncoder() {
+//        return new SpringFormEncoder(new SpringEncoder(messageConverters));
+//    }
 
     @Bean
     @Primary
     @Scope("prototype")
-    public Encoder feignEncoder() {
-        return new SpringFormEncoder(new SpringEncoder(messageConverters));
+    public Encoder multipartFormEncoder() {
+        return new SpringFormEncoder();
     }
-
     @Bean
     public feign.Logger.Level multipartLoggerLevel() {
         return feign.Logger.Level.FULL;

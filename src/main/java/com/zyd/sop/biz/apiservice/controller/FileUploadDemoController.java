@@ -10,13 +10,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Extension;
 import io.swagger.annotations.ExtensionProperty;
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.io.*;
 import java.util.Collection;
 
 /**
@@ -37,13 +41,23 @@ public class FileUploadDemoController {
     @ApiOperation(value = "文件上传例1", notes = "上传文件demo")
     @ApiMapping(value = "demo.file.upload")
     public FileUploadResult file1(FileUploadParam param) {
-        //TODO Demo只演示了上传过来并获取文件元素信息返回，并没有存储。此处可根据实际存储情况存储到其他地方，并返回访问资源URL，返回给前端
         System.out.println(param.getRemark());
         // 获取上传的文件
         MultipartFile file1 = param.getFile1();
         MultipartFile file2 = param.getFile2();
 
-        fileUploadApi.uploadFile(file1,"123/123");
+        DiskFileItem fileItem = (DiskFileItem) new DiskFileItemFactory().createItem("file",file1.getContentType()
+                , true, file1.getOriginalFilename());
+
+        try{
+            OutputStream os = fileItem.getOutputStream();
+            IOUtils.copy(file1.getInputStream(), os);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid file: " + e, e);
+        }
+
+        MultipartFile multi = new CommonsMultipartFile(fileItem);
+        fileUploadApi.uploadFile(multi,"123/123");
         FileUploadResult result = new FileUploadResult();
         FileUploadResult.FileMeta fileMeta1 = buildFileMeta(file1);
         FileUploadResult.FileMeta fileMeta2 = buildFileMeta(file2);

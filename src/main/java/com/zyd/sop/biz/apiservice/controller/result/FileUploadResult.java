@@ -26,11 +26,11 @@ public class FileUploadResult {
         public FileMeta() {
         }
 
-        @ApiModelProperty(value = "文件名称", example = "1.txt")
+        @ApiModelProperty(dataType="string",value = "文件名称")
         private String filename;
-        @ApiModelProperty(value = "文件大小", example = "109")
+        @ApiModelProperty(value = "文件大小")
         private long size;
-        @ApiModelProperty(value = "文件主题", example = "啊啊啊")
+        @ApiModelProperty(dataType="string" ,value = "文件主题")
         private String fileTheme;
     }
 }

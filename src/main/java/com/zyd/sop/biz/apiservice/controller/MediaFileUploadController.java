@@ -4,9 +4,12 @@ import com.zyd.sop.biz.apiservice.controller.params.DownLoadParam;
 import com.zyd.sop.biz.apiservice.controller.params.ImageMediaParams;
 import com.zyd.sop.biz.apiservice.controller.result.FileUploadResult;
 import com.zyd.sop.biz.fegin.FileUploadApi;
+import com.zyd.sop.biz.utils.DateUtils;
 import com.zyd.sop.servercommon.annotation.ApiMapping;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -16,25 +19,40 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 
 @RestController
 @Api(tags = "多媒体文件上传下载", position = 2)
 public class MediaFileUploadController {
 
+
     @Autowired
     private FileUploadApi fileUploadApi;
     @ApiOperation(value = "图片文件上传", notes = "图片文件上传")
-    @ApiMapping(value = "medio.image.upload")
+    @ApiMapping(value = "media.image.upload")
     public FileUploadResult file1(ImageMediaParams param) {
 
         // 获取上传的文件
         MultipartFile file1 = param.getFile1();
 
+        //TODO 无法直接转换成CommonMultipartFile，所以先用临时文件存储后转发
         String fileTheme=param.getFileTheme();
-        //fileUploadApi.uploadFile(file1,"123/123");
+        DiskFileItem fileItem = (DiskFileItem) new DiskFileItemFactory().createItem("file",file1.getContentType()
+                , true, file1.getOriginalFilename());
+
+        try{
+            OutputStream os = fileItem.getOutputStream();
+            IOUtils.copy(file1.getInputStream(), os);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid file: " + e, e);
+        }
+
+        MultipartFile multi = new CommonsMultipartFile(fileItem);
+        fileUploadApi.uploadFile(multi,param.getFileTheme()+File.separator+ DateUtils.getDate());
         FileUploadResult result = new FileUploadResult();
         FileUploadResult.FileMeta fileMeta1 = buildFileMeta(file1,fileTheme);
 
@@ -44,13 +62,26 @@ public class MediaFileUploadController {
 
 
     @ApiOperation(value = "视频文件上传", notes = "视频文件上传")
-    @ApiMapping(value = "medio.vedio.upload")
+    @ApiMapping(value = "media.vedio.upload")
     public FileUploadResult file2(ImageMediaParams param) {
         // 获取上传的文件
         MultipartFile file1 = param.getFile1();
 
         String fileTheme=param.getFileTheme();
-        //fileUploadApi.uploadFile(file1,"123/123");
+        //TODO 无法直接转换成CommonMultipartFile，所以先用临时文件存储后转发
+        DiskFileItem fileItem = (DiskFileItem) new DiskFileItemFactory().createItem("file",file1.getContentType()
+                , true, file1.getOriginalFilename());
+
+        try{
+            OutputStream os = fileItem.getOutputStream();
+            IOUtils.copy(file1.getInputStream(), os);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid file: " + e, e);
+        }
+
+        MultipartFile multi = new CommonsMultipartFile(fileItem);
+        fileUploadApi.uploadFile(multi,param.getFileTheme()+File.separator+ DateUtils.getDate());
+
         FileUploadResult result = new FileUploadResult();
         FileUploadResult.FileMeta fileMeta1 = buildFileMeta(file1,fileTheme);
 

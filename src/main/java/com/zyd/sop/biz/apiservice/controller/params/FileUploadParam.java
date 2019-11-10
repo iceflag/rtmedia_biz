@@ -6,9 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * @author tanghc
- */
+
 @Data
 public class FileUploadParam {
     private String remark;

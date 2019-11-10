@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 public class DownLoadParam {
-    @ApiModelProperty(value = "文件名称", example = "1.txt")
+    @ApiModelProperty(value = "文件名称")
     private long fileName;
-    @ApiModelProperty(value = "文件主题", example = "啊啊啊")
+    @ApiModelProperty(value = "文件主题")
     private String fileTheme;
 }

@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zyd.sop.biz.apiservice.mapper.MmImagesMapper">
 
-    <resultMap id="BaseResultMap" type="com.zyd.sop.biz.apiservice.model.MmImagesEntity" >
+    <resultMap id="BaseResultMap" type="com.zyd.sop.biz.apiservice.model.MmImages" >
         <result column="id" property="id" />
         <result column="file_theme" property="fileTheme" />
         <result column="file_title" property="fileTitle" />
@@ -36,7 +36,7 @@
                 time_stamp
     </sql>
 
-    <insert id="insert" useGeneratedKeys="true" keyColumn="id" parameterType="com.zyd.sop.biz.apiservice.model.MmImagesEntity"">
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" parameterType="com.zyd.sop.biz.apiservice.model.MmImages">
         INSERT INTO mm_images
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test ='null != fileTheme'>
@@ -127,7 +127,7 @@
         WHERE id = #{id}
     </delete>
 
-    <update id="update" parameterType="com.zyd.sop.biz.apiservice.model.MmImagesEntity">
+    <update id="update" parameterType="com.zyd.sop.biz.apiservice.model.MmImages">
         UPDATE mm_images
         <set>
             <if test ='null != fileTheme'>file_theme = #{fileTheme},</if>
